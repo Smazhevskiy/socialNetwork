@@ -5,7 +5,6 @@ import {HeaderContainerPropsType} from "./HeaderContainer";
 
 
 const Header: FC<HeaderContainerPropsType> = props => {
-    debugger
     const {
         login,
         isAuth,
