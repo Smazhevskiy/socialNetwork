@@ -1,8 +1,8 @@
 import React, {ChangeEvent} from "react";
-import { PostType} from "../../../redux/store";
+import { postType} from "../../../redux/store";
 import classes from "./MyPosts.module.css"
 import { MyPostPropsType } from "./MyPostsCountainer";
-import Post from "./post/Post";
+import Post from "./Post/Post";
 
 
 

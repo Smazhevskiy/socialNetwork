@@ -1,11 +1,11 @@
 import React from "react";
-import { PostType } from "../../../../redux/store";
+import { postType } from "../../../../redux/store";
 import classes from "./Post.module.css"
 
 
 
 
-const Post : React.FC<PostType> = (props) => {
+const Post : React.FC<postType> = (props) => {
     return (
         <div className={classes.post}>
                 <img className={classes.avatar}

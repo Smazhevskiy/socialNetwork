@@ -1,4 +1,4 @@
-import {PostType} from "../../../redux/store";
+import {postType} from "../../../redux/store";
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
@@ -6,7 +6,7 @@ import {AppStateType} from "../../../redux/redux-store";
 import {Dispatch} from "redux";
 
 type MapStatePropsType = {
-    posts: PostType[]
+    posts: postType[]
     newPostText: string
 }
 type MapDispatchToProps = {

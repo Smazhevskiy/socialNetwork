@@ -6,7 +6,7 @@ export enum DIALOGS_ACTIONS_TYPE{
 
 export type dialogType = { id: number, name: string, img: string }
 export type messageType = { id: number, message: string }
-export type InitialStateType = typeof initialState
+export type DialogsPageStateType = typeof initialState
 let initialState = {
     dialogs: [
         {
@@ -26,13 +26,13 @@ let initialState = {
         },
     ] as dialogType[],
     messages: [
-        {id: 1, message: 'Yoooo man!'},
-        {id: 2, message: 'ok bro u rly crazy'},
-        {id: 3, message: '))))))))000)0000'},
+        {id: 1, message: 'Hihihihih'},
+        {id: 2, message: 'How is your s ds'},
+        {id: 3, message: 'Hihihihih'},
     ] as messageType[],
     newMessageBody: ''
 }
-const dialogsReducer = (state: InitialStateType = initialState, action: AllActionTypes): InitialStateType => {
+const dialogsReducer = (state: DialogsPageStateType = initialState, action: AllActionTypes): DialogsPageStateType => {
 
     switch (action.type) {
         case DIALOGS_ACTIONS_TYPE.UPDATE_NEW_MESSAGE_BODY :

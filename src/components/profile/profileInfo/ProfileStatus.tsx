@@ -1,47 +1,59 @@
 import React from "react";
-import s from './ProfileStatus.module.css'
 
-type ProfileStatusType = {
+export type EditableSpanPropsType = {
     status: string
+    updateStatus: (status: string) => void
 }
 
-export class ProfileStatus extends React.Component<ProfileStatusType> {
+
+export class ProfileStatus extends React.Component<EditableSpanPropsType> {
     state = {
-        editMode: false
+        status: this.props.status,
+        editMode: true
     }
 
-    activateEditMode() {
-        this.setState({
-            editMode: true
-        })
+    onDoubleClick = () => {
+        this.setState({...this.state, editMode: false})
     }
+    onBlur = (e: any) => {
+        this.setState({...this.state, editMode: true})
+        this.props.updateStatus(e.currentTarget.value)
+    }
+    onChange = (e: any) => {
+        this.setState({...this.state, status: e.currentTarget.value})
 
-    deactivateEditMode() {
-        this.setState({
-            editMode: false
-        })
+    }
+    onEnter = (e: any) => {
+        if (e.key === 'Enter') {
+            this.setState({...this.state, editMode: true, value: e.currentTarget.value})
+            this.props.updateStatus(e.currentTarget.value)
+        }
     }
 
     render() {
 
         return (
-            <div className={s.profileStatus}>
-                {!this.state.editMode &&
-                <div>
-                    <span onDoubleClick={this.activateEditMode.bind(this)}>{this.props.status}</span>
-                </div>
-                }
-                {this.state.editMode &&
-                <div>
-                    <input
-                        autoFocus={true}
-                        onBlur={this.deactivateEditMode.bind(this)}
-                        value={this.props.status}
+            <div>
+                {this.state.editMode
+                    ? <span
+                        onDoubleClick={this.onDoubleClick}
+                        onTouchStart={this.onDoubleClick}>{!this.props.status ? 'hey' : this.props.status}</span>
+                    : <input
+                        type="text"
+                        onBlur={this.onBlur}
+                        value={this.state.status}
+                        autoFocus
+                        onChange={this.onChange}
+                        onKeyPress={this.onEnter}
                     />
-                </div>
                 }
+
+
             </div>
+
         )
     }
 
 }
+
+export default ProfileStatus
