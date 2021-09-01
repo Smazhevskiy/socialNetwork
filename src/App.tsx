@@ -10,7 +10,7 @@ import DialogsContainer from "./components/dialogs/DialogsContainer";
 import UsersContainer from './components/users/usersContainer';
 import ProfileContainer from './components/profile/ProfileContainer';
 import HeaderContainer from "./components/header/HeaderContainer";
-import {Login} from "./components/login/login";
+import {Login} from "./components/login/Login";
 const App: React.FC = ()  => {
     return (
             <div className="App">
