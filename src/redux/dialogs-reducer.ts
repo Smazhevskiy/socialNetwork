@@ -1,7 +1,7 @@
 import {AllActionTypes} from "./redux-store";
-export enum DIALOGS_ACTIONS_TYPE{
+
+export enum DIALOGS_ACTIONS_TYPE {
     SEND_MESSAGE = 'SEND_MESSAGE',
-    UPDATE_NEW_MESSAGE_BODY='UPDATE_NEW_MESSAGE_BODY',
 }
 
 export type dialogType = { id: number, name: string, img: string }
@@ -35,20 +35,12 @@ let initialState = {
 const dialogsReducer = (state: DialogsPageStateType = initialState, action: AllActionTypes): DialogsPageStateType => {
 
     switch (action.type) {
-        case DIALOGS_ACTIONS_TYPE.UPDATE_NEW_MESSAGE_BODY :
-            return  {
-                ...state,
-                newMessageBody: action.body
-            }
-
         case DIALOGS_ACTIONS_TYPE.SEND_MESSAGE:
-            let body = state.newMessageBody
-            let newMessage: messageType = {id: 6, message: body,}
-            if (body !== '') {
+            let newMessage: messageType = {id: 11, message: action.messageText}
+            if (action.messageText.trim() !== '') {
                 return {
                     ...state,
-                    newMessageBody: '',
-                    messages: [...state.messages, newMessage]
+                    messages: [newMessage, ...state.messages],
                 }
             }
             return state
@@ -57,6 +49,6 @@ const dialogsReducer = (state: DialogsPageStateType = initialState, action: AllA
             return state
     }
 }
-export const sendMessageCreator = () => ({type: 'SEND_MESSAGE'}as const )
-export const updateNewMessageBodyCreator = (body: string) => ({type: 'UPDATE_NEW_MESSAGE_BODY', body}as const)
+export const sendMessageCreator = (messageText: string) => ({type: 'SEND_MESSAGE', messageText} as const)
+
 export default dialogsReducer
