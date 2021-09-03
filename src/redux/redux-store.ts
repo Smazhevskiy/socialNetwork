@@ -42,6 +42,7 @@ let rootReducer = combineReducers({
     form: formReducer
 })
 
+
 export type AppStateType = ReturnType<typeof rootReducer>
 let store = createStore(
     rootReducer, composeWithDevTools(

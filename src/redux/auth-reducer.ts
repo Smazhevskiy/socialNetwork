@@ -3,7 +3,7 @@ import {Dispatch} from "redux";
 import {authAPI} from "../dal/api";
 
 export enum AUTH_ACTIONS_TYPE {
-    SET_USER_DATA = 'SET_USER_DATA' ,
+    SET_USER_DATA = 'SET_USER_DATA',
 }
 
 
@@ -14,32 +14,54 @@ let initialState = {
     login: null as null | string,
     isAuth: false
 }
-export const setUserData = (userId:number,email:string,login:string) => ({
-    type:'SET_USER_DATA',data:{userId,email,login}} as const )
 
 export const getAuthUserData = () => {
-    return (dispatch:Dispatch) => {
+    return (dispatch: Dispatch) => {
         authAPI.authMe()
             .then(response => {
                 if (response.data.resultCode === 0) {
-                     let {userId, email, login} = response.data.data
-                    dispatch(setUserData(userId, email, login))
+                    let {userId, email, login} = response.data.data
+                    dispatch(setUserData(userId, email, login, true))
                 }
             })
     }
 }
 
+export const login = (email: string, password: string | number, rememberMe: boolean,) => (dispatch: Dispatch) => {
+    authAPI.login(email, password, rememberMe)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                let {userId, email, login} = response.data.data
+                dispatch(setUserData(userId, email, login, true))
+            }
+        })
 
-export const authReducer = (state:initialStateType = initialState,action:AllActionTypes):initialStateType => {
-     switch (action.type) {
-         case AUTH_ACTIONS_TYPE.SET_USER_DATA: {
-             return {
-                 ...state,
-                 ...action.data,
-                 isAuth: true
-             }
-         }
-         default: return state
-     }
 }
 
+export const logout = () => (dispatch: Dispatch) => {
+    authAPI.logout()
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(setUserData(null, null, null, false))
+            }
+        })
+}
+
+
+export const authReducer = (state: initialStateType = initialState, action: AllActionTypes): initialStateType => {
+    switch (action.type) {
+        case AUTH_ACTIONS_TYPE.SET_USER_DATA: {
+            return {
+                ...state,
+                ...action.payload,
+            }
+        }
+        default:
+            return state
+    }
+}
+
+
+export const setUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
+    type: 'SET_USER_DATA', payload: {userId, email, login, isAuth}
+} as const)
