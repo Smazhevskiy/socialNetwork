@@ -15,7 +15,6 @@ type usersPropsType = {
     unfollow: (userId: number) => void
 }
 export const Users: FC<usersPropsType> = props => {
-    debugger
     const {
         users,
         currentPage,

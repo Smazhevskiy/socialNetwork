@@ -16,6 +16,8 @@ type MapDispatchToProps = {
 type MapStatePropsType = {
     profile: null | ProfileServerType
     status: string
+    authirizedId: any
+    isAuth: boolean
 }
 type PathParamsType = {
     userId: string
@@ -47,7 +49,9 @@ class ProfileContainer extends React.Component<propsType> {
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     profile: state.profilePage.profile,
-    status: state.profilePage.status
+    status: state.profilePage.status,
+    authirizedId: state.auth.userId,
+    isAuth: state.auth.isAuth
 })
 // 1st wrap - redirect hoc ( custom hoc)
 // 2nd wrap - with router hoc

@@ -1,6 +1,7 @@
 import {AllActionTypes} from "./redux-store";
 import {Dispatch} from "redux";
 import {authAPI} from "../dal/api";
+import {stopSubmit} from "redux-form";
 
 export enum AUTH_ACTIONS_TYPE {
     SET_USER_DATA = 'SET_USER_DATA',
@@ -21,7 +22,7 @@ export const getAuthUserData = () => {
             .then(response => {
                 if (response.data.resultCode === 0) {
                     let {userId, email, login} = response.data.data
-                    dispatch(setUserData(userId, email, login, true))
+                    dispatch(setUserAuthData(userId, email, login, true))
                 }
             })
     }
@@ -29,10 +30,13 @@ export const getAuthUserData = () => {
 
 export const login = (email: string, password: string | number, rememberMe: boolean,) => (dispatch: Dispatch) => {
     authAPI.login(email, password, rememberMe)
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                let {userId, email, login} = response.data.data
-                dispatch(setUserData(userId, email, login, true))
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                let {userId, email, login} = res.data.data
+                dispatch(setUserAuthData(userId, email, login, true))
+            } else {
+                let message = res.data.messages.length > 0 ? res.data.messages[0] : 'Some error'
+                dispatch(stopSubmit('login', {_error: message}))
             }
         })
 
@@ -42,7 +46,7 @@ export const logout = () => (dispatch: Dispatch) => {
     authAPI.logout()
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setUserData(null, null, null, false))
+                dispatch(setUserAuthData(null, null, null, false))
             }
         })
 }
@@ -62,6 +66,6 @@ export const authReducer = (state: initialStateType = initialState, action: AllA
 }
 
 
-export const setUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
+export const setUserAuthData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
     type: 'SET_USER_DATA', payload: {userId, email, login, isAuth}
 } as const)

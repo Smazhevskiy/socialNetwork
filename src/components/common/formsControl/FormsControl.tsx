@@ -16,6 +16,7 @@ export const Textarea:FC<WrappedFieldProps & CustomFieldProps > = ({input,meta,.
                 <textarea {...input} {...props}/>
             </div>
             {hasError && <span>{meta.error}</span>}
+            {props.children}
         </div>
     )
 }

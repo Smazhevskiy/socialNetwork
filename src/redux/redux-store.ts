@@ -14,7 +14,7 @@ import usersReducer, {
     toggleIsFetching,
     unFollowSuccess,
 } from "./users-reducer";
-import {authReducer, setUserData} from "./auth-reducer";
+import {authReducer, setUserAuthData} from "./auth-reducer";
 import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from "redux-devtools-extension";
 import { reducer as formReducer } from 'redux-form'
@@ -30,7 +30,7 @@ export type AllActionTypes =
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof setUsersProfileSuccess>
     | ReturnType<typeof toggleFollowingProgress>
-    | ReturnType<typeof setUserData>
+    | ReturnType<typeof setUserAuthData>
     | ReturnType<typeof setUserStatus>
 
 
