@@ -1,7 +1,7 @@
 import {AllActionTypes} from "./redux-store";
-
-export enum DIALOGS_ACTIONS_TYPE {
+export enum DIALOGS_ACTIONS_TYPE{
     SEND_MESSAGE = 'SEND_MESSAGE',
+    UPDATE_NEW_MESSAGE_BODY='UPDATE_NEW_MESSAGE_BODY',
 }
 
 export type dialogType = { id: number, name: string, img: string }
@@ -30,17 +30,16 @@ let initialState = {
         {id: 2, message: 'How is your s ds'},
         {id: 3, message: 'Hihihihih'},
     ] as messageType[],
-    newMessageBody: ''
 }
 const dialogsReducer = (state: DialogsPageStateType = initialState, action: AllActionTypes): DialogsPageStateType => {
 
     switch (action.type) {
         case DIALOGS_ACTIONS_TYPE.SEND_MESSAGE:
-            let newMessage: messageType = {id: 11, message: action.messageText}
-            if (action.messageText.trim() !== '') {
+            let newMessage: messageType = {id: 6, message: action.messageText}
+            if (action.messageText !== '') {
                 return {
                     ...state,
-                    messages: [newMessage, ...state.messages],
+                    messages: [...state.messages, newMessage]
                 }
             }
             return state
@@ -49,6 +48,6 @@ const dialogsReducer = (state: DialogsPageStateType = initialState, action: AllA
             return state
     }
 }
-export const sendMessageCreator = (messageText: string) => ({type: 'SEND_MESSAGE', messageText} as const)
+export const sendMessageCreator = (messageText:string) => ({type: 'SEND_MESSAGE',messageText}as const )
 
 export default dialogsReducer

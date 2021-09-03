@@ -6,7 +6,7 @@ import {profileAPI, usersAPI} from "../dal/api";
 export enum PROFILE_ACTIONS_TYPE {
     ADD_POST = 'ADD_POST',
     SET_USERS_PROFILE = 'SET_USERS_PROFILE',
-    SET_STATUS = 'SET_STATUS'
+    SET_STATUS = 'SET_STATUS',
 }
 
 export type ProfileServerType = {
@@ -31,7 +31,8 @@ export type ProfileServerType = {
     }
 }
 
-export const addPostActionCreator = (newPostText: any) => ({type: 'ADD_POST', newPostText} as const)
+export const addPostActionCreator = (newPostText:string) => ({type: 'ADD_POST',newPostText} as const)
+
 export const setUsersProfileSuccess = (profile: ProfileServerType) => ({type: 'SET_USERS_PROFILE', profile} as const)
 export const setUserStatus = (status: string) => ({type: 'SET_STATUS', status} as const)
 
@@ -87,7 +88,6 @@ const profileReducer = (state: ProfileInitialStateType = initialState, action: A
             }
             return state
         }
-
         case PROFILE_ACTIONS_TYPE.SET_USERS_PROFILE : {
             return {
                 ...state,

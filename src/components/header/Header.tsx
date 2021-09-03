@@ -8,11 +8,10 @@ const Header: FC<HeaderContainerPropsType> = props => {
     const {
         login,
         isAuth,
-        ...rest
     } = props
     return (
         <header className={classes.header}>
-            <img src="https://i1.u-mama.ru/111/87b/b3d/3f034929b4556f4a747ca0fd40c29f08.jpg" alt=""/>
+            <img src="https://i1.u-mama.ru/111/87b/b3d/3f034929b4556f4a747ca0fd40c29f08.jpg" alt="animated-boy"/>
             <div className={classes.loginBlock}>
                 {isAuth
                     ? login
