@@ -1,23 +1,25 @@
 import React from 'react';
 import Profile from "./Profile";
-import {AppStateType} from "../../redux/redux-store";
-import {getUserStatus, ProfileServerType, setUserProfile, updateUserStatus} from "../../redux/profile-reducer";
+import {AppRootStateType} from "../../redux/redux-store";
+import {getUserStatus, setUserProfile, updateUserStatus} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import {compose} from 'redux';
+import {userProfileType} from "../../dal/api";
 
 
 export type ProfileContainerPropsType = MapStatePropsType & MapDispatchToProps
 type MapDispatchToProps = {
-    setUserProfile: (userId: string) => void
-    getUserStatus: (userid: string) => void
+    setUserProfile: (userId: number) => void
+    getUserStatus: (userid: number) => void
     updateUserStatus: (status: string) => void
 }
 type MapStatePropsType = {
-    profile: null | ProfileServerType
+    profile: null | userProfileType
     status: string
-    authirizedId: any
-    isAuth: boolean
+    authorizedUserId:number | null
+    isAuth:boolean
+    userId:number | null
 }
 type PathParamsType = {
     userId: string
@@ -26,12 +28,18 @@ type propsType = ProfileContainerPropsType & RouteComponentProps<PathParamsType>
 
 class ProfileContainer extends React.Component<propsType> {
     componentDidMount() {
-        let userId = this.props.match.params.userId
+        debugger
+        let userId:number|null = Number(this.props.match.params.userId)
         if (!userId) {
-            userId = '17798'
+            userId = this.props.userId
+            if(!userId) {
+                this.props.history.push('/login')
+            }
         }
-        this.props.setUserProfile(userId)
-        this.props.getUserStatus(userId)
+        if(userId) {
+            this.props.setUserProfile(userId)
+            this.props.getUserStatus(userId)
+        }
     }
 
     render() {
@@ -46,12 +54,12 @@ class ProfileContainer extends React.Component<propsType> {
         );
     }
 }
-
-const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
+const mapStateToProps = (state: AppRootStateType): MapStatePropsType => ({
     profile: state.profilePage.profile,
     status: state.profilePage.status,
-    authirizedId: state.auth.userId,
-    isAuth: state.auth.isAuth
+    authorizedUserId:state.auth.userId,
+    isAuth:state.auth.isAuth,
+    userId:state.auth.userId
 })
 // 1st wrap - redirect hoc ( custom hoc)
 // 2nd wrap - with router hoc

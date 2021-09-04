@@ -1,5 +1,51 @@
 import axios from "axios";
 
+export type userResponseType = {
+    items : userType[]
+    totalCount: number
+    error: string
+}
+export interface ResponseType<T = {}> {
+    resultCode: number
+    messages: string[],
+    data: T
+}
+export type userType = {
+    id: number
+    name: string
+    status: string
+    photos: {
+        small: string
+        large: string
+    }
+    followed: boolean
+}
+export type authDataType = {
+    id: number
+    email: string
+    login: string
+}
+export type userProfileType = {
+    aboutMe: string
+    contacts: {
+        facebook: string
+        website: string
+        vk: string
+        twitter: string
+        instagram: string
+        youtube: string
+        github: string
+        mainLink: string
+    }
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: {
+        small: string
+        large: string
+    }
+}
 
 const instance = axios.create({
     withCredentials: true,
@@ -10,30 +56,31 @@ const instance = axios.create({
 })
 export const usersAPI = {
     getUsers(currentPage: number = 1, pageSize: number = 10) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
+        return instance.get<userResponseType>(`users?page=${currentPage}&count=${pageSize}`)
     },
     follow(userId: number) {
-        return instance.post(`follow/${userId}`)
+        return instance.post<ResponseType<userType>>(`follow/${userId}`)
     },
+    // maybe refactor
     unfollow(userId: number) {
-        return instance.delete(`follow/${userId}`)
+        return instance.delete<ResponseType>(`follow/${userId}`)
     },
 
-    getProfileUser(userId: string) {
+    getProfileUser(userId: number) {
         console.log('Please use profileAPI ti get users.')
         return profileAPI.getUserProfile(userId)
     }
 
 }
 export const profileAPI = {
-    getUserProfile(userId: string) {
-        return instance.get(`profile/${userId}`)
+    getUserProfile(userId: number) {
+        return instance.get<userProfileType>(`profile/${userId}`)
     },
-    getUserStatus(userId: string) {
+    getUserStatus(userId: number) {
         return instance.get(`profile/status/${userId}`)
     },
     updateUserStatus(status: string) {
-        return instance.put(`profile/status`, {
+        return instance.put<ResponseType<userType>>(`profile/status`, {
             status: status
         })
     }
@@ -41,13 +88,17 @@ export const profileAPI = {
 }
 export const authAPI = {
     authMe() {
-        return instance.get(`auth/me`);
+        return instance.get<ResponseType<authDataType>>(`auth/me`)
     },
-    login(email: string, password: string | number, rememberMe: boolean = false) {
-        return instance.post(`auth/login`, {email, password, rememberMe});
+    login(email:string,password:string,rememberMe:boolean=false,captcha:boolean) {
+        return instance.post<ResponseType<{userId:number}>>(`auth/login` , {
+            email,
+            password,
+            rememberMe,
+            captcha
+        })
     },
     logout() {
-        return instance.delete(`auth/login`);
+        return instance.delete<ResponseType>(`auth/login`)
     }
 }
-

@@ -5,7 +5,7 @@ import {login} from "../../redux/auth-reducer";
 import {required} from "../../utils/validate/validators";
 import {reduxForm, Field, InjectedFormProps} from 'redux-form';
 import {Input} from '../common/formsControl/FormsControl';
-import {AppStateType} from "../../redux/redux-store";
+import {AppRootStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
 
 interface mapDspatchToProps {
@@ -58,7 +58,7 @@ const LoginReduxForm = reduxForm<formDataType>({
     form: 'login'
 })(LoginForm)
 
-const MapStateToProps = (state: AppStateType): MapStateToPropsType => {
+const MapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
     return {
         isAuth: state.auth.isAuth
     }
