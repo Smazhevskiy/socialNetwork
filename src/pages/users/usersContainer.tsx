@@ -12,12 +12,12 @@ import {Preloader} from "../../components/common/Preloader/Preloader";
 import {compose} from "redux";
 import {userType} from "../../dal/api";
 import {
-    getCurrentPage,
-    getFollowingInProgress,
-    getIsFetching,
-    getPageSize,
-    getTotalUsersCount,
-    getUsers
+    getCurrentPageSelector,
+    getFollowingInProgressSelector,
+    getIsFetchingSelector,
+    getPageSizeSelector,
+    getTotalUsersCountSelector,
+    getUsersSelector
 } from "../../redux/users-selectors";
 
 type MapStatePropsType = {
@@ -65,12 +65,12 @@ export class UsersContainer extends React.Component<UsersApiComponentPropsType> 
 
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
-        users: getUsers(state),
-        pageSize: getPageSize(state),
-        totalUsersCount: getTotalUsersCount(state),
-        currentPage: getCurrentPage(state),
-        isFetching: getIsFetching(state),
-        followingInProgress: getFollowingInProgress(state)
+        users: getUsersSelector(state),
+        pageSize: getPageSizeSelector(state),
+        totalUsersCount: getTotalUsersCountSelector(state),
+        currentPage: getCurrentPageSelector(state),
+        isFetching: getIsFetchingSelector(state),
+        followingInProgress: getFollowingInProgressSelector(state)
     }
 }
 
