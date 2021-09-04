@@ -11,19 +11,19 @@ import UsersContainer from './pages/users/usersContainer';
 import ProfileContainer from './pages/profile/ProfileContainer';
 import HeaderContainer from "./components/header/HeaderContainer";
 import Login from "./pages/login/loginPage";
-import { useDispatch, useSelector} from "react-redux";
-import { useTypedSelector} from "./redux/redux-store";
+import {useDispatch, useSelector} from "react-redux";
+import {useTypedSelector} from "./redux/redux-store";
 import {AppStateType, initializeApp} from "./redux/app-reducer";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import Friends from "./components/navbar/friends/Friends";
 
 
-const App = () =>  {
+const App = () => {
     const dispatch = useDispatch()
     const appState = useTypedSelector<AppStateType>((state) => state.app)
     useEffect(() => {
         dispatch(initializeApp())
-    })
+    }, [])
     if (!appState.initialized) {
         return <Preloader/>
     }
