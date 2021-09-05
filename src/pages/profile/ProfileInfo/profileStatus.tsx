@@ -1,5 +1,4 @@
-import React from "react";
-import { ProfileInitialStateType } from "../../../redux/profile-reducer";
+import React, {FC, useEffect, useState} from "react";
 
 export type EditableSpanPropsType = {
     status: string
@@ -7,61 +6,50 @@ export type EditableSpanPropsType = {
 }
 
 
-export class ProfileStatus extends React.Component<EditableSpanPropsType> {
-    state = {
-        status: this.props.status,
-        editMode: true
+export const ProfileStatus:FC<EditableSpanPropsType> = (props) => {
+    const [editMode, setEditMode] = useState(false);
+    const [status, setStatus] = useState('');
+
+    useEffect(() => {
+        setStatus(props.status)
+    },[props.status])
+
+    const onDoubleClick = () => {
+        setEditMode(true)
     }
-    componentDidUpdate(prevProps:EditableSpanPropsType,prevState:ProfileInitialStateType) {
-        if(prevProps.status !== this.props.status){
-            this.setState({
-                status:this.props.status
-            })
-        }
+    const onBlur = (e: any) => {
+        setEditMode(false)
+        props.updateStatus(e.currentTarget.value)
     }
 
-    onDoubleClick = () => {
-        this.setState({...this.state, editMode: false})
-    }
-    onBlur = (e: any) => {
-        this.setState({...this.state, editMode: true})
-        this.props.updateStatus(e.currentTarget.value)
-    }
-    onChange = (e: any) => {
-        this.setState({...this.state, status: e.currentTarget.value})
+    const onChange = (e: any) => {
+        setStatus(e.currentTarget.value)
 
     }
-    onEnter = (e: any) => {
+    const onEnter = (e: any) => {
         if (e.key === 'Enter') {
-            this.setState({...this.state, editMode: true, value: e.currentTarget.value})
-            this.props.updateStatus(e.currentTarget.value)
+            setEditMode(false)
+            props.updateStatus(e.currentTarget.value)
         }
     }
+    return (
+        <div>
+            {!editMode
+                ? <span
+                    onDoubleClick={onDoubleClick}
+                    onTouchStart={onDoubleClick}>{!props.status ? 'hey' : props.status}</span>
+                : <input
+                    type="text"
+                    onBlur={onBlur}
+                    value={status}
+                    autoFocus
+                    onChange={onChange}
+                    onKeyPress={onEnter}
+                />
+            }
+        </div>
 
-    render() {
-
-        return (
-            <div>
-                {this.state.editMode
-                    ? <span
-                        onDoubleClick={this.onDoubleClick}
-                        onTouchStart={this.onDoubleClick}>{!this.props.status ? 'hey' : this.props.status}</span>
-                    : <input
-                        type="text"
-                        onBlur={this.onBlur}
-                        value={this.state.status}
-                        autoFocus
-                        onChange={this.onChange}
-                        onKeyPress={this.onEnter}
-                    />
-                }
-
-
-            </div>
-
-        )
-    }
-
+    )
 }
 
 export default ProfileStatus
