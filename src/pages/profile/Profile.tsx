@@ -8,16 +8,16 @@ import {userProfileType} from "../../dal/api";
 
 export type ProfilePropsType = {
     profile: null | userProfileType
-    status:string
-    updateStatus:(status:string) => void
+    status: string
+    updateStatus: (status: string) => void
 }
 
-const Profile: React.FC<ProfilePropsType> =( { profile, status, updateStatus})=> {
+const Profile: React.FC<ProfilePropsType> = React.memo(({profile, status, updateStatus}) => {
     return (
         <div className={classes.profile}>
-            <ProfileInfo profile={profile} status={status} updateStatus={updateStatus} />
-            <MyPostsContainer  />
+            <ProfileInfo profile={profile} status={status} updateStatus={updateStatus}/>
+            <MyPostsContainer/>
         </div>
     )
-}
+});
 export default Profile

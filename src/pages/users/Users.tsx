@@ -1,8 +1,10 @@
 import s from "./users.module.css";
 import userWithoutPhoto from "../../assets/imagies/icons8-user-male.svg";
-import React, {FC} from "react";
+import React, {ChangeEvent, FC} from "react";
 import {NavLink} from "react-router-dom";
 import {userType} from "../../dal/api";
+import Pagination from '@material-ui/lab/Pagination';
+
 
 type usersPropsType = {
     totalUsersCount: number
@@ -14,7 +16,9 @@ type usersPropsType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
 }
-export const Users: FC<usersPropsType> = props => {
+
+
+export const Users: FC<usersPropsType> = React.memo((props) => {
     debugger
     const {
         users,
@@ -32,15 +36,23 @@ export const Users: FC<usersPropsType> = props => {
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
-    const pageNumbers = pages.map((p, i) => <span
-        onClick={() => onPageChanged(p)}
-        key={i} className={currentPage === p ? s.selected : ''}
-    >{p}</span>)
+    // const pageNumbers = pages.map((p, i) => <span
+    //     onClick={() => onPageChanged(p)}
+    //     key={i} className={currentPage === p ? s.selected : ''}
+    // >{p}</span>)
+
+    const handleChangePage = (e: ChangeEvent<unknown>, curPage: any) => {
+        onPageChanged(curPage)
+    }
+
     return (
         <div>
-            <div style={{marginBottom: '20px'}}>
-                {pageNumbers}
-            </div>
+            <Pagination defaultPage={1}  page={currentPage} onChange={handleChangePage} count={pagesCount} color={'secondary'}
+                        shape="rounded"/>
+
+            {/*<div style={{marginBottom: '20px'}}>*/}
+            {/*    {pageNumbers}*/}
+            {/*</div>*/}
             {users.map((user) => {
                 return (
                     <div key={user.id} className={s.grid}>
@@ -70,8 +82,9 @@ export const Users: FC<usersPropsType> = props => {
                     </div>
                 )
             })}
+            <Pagination onChange={handleChangePage} count={pagesCount} color={'secondary'} shape="rounded"/>
         </div>
     )
 
 
-}
+});
