@@ -2,7 +2,7 @@ import s from "./users.module.css";
 import userWithoutPhoto from "../../assets/imagies/icons8-user-male.svg";
 import React, {ChangeEvent, FC} from "react";
 import {NavLink} from "react-router-dom";
-import {userType} from "../../dal/api";
+import {UserType} from "../../dal/api";
 import Pagination from '@material-ui/lab/Pagination';
 
 
@@ -10,7 +10,7 @@ type usersPropsType = {
     totalUsersCount: number
     currentPage: number
     onPageChanged: (pageNumber: number) => void
-    users: userType[]
+    users: UserType[]
     pageSize: number
     followingInProgress: number[]
     follow: (userId: number) => void
@@ -19,7 +19,6 @@ type usersPropsType = {
 
 
 export const Users: FC<usersPropsType> = React.memo((props) => {
-    debugger
     const {
         users,
         currentPage,
@@ -41,7 +40,7 @@ export const Users: FC<usersPropsType> = React.memo((props) => {
     //     key={i} className={currentPage === p ? s.selected : ''}
     // >{p}</span>)
 
-    const handleChangePage = (e: ChangeEvent<unknown>, curPage: any) => {
+    const handleChangePage = (e: ChangeEvent<unknown>, curPage: number) => {
         onPageChanged(curPage)
     }
 

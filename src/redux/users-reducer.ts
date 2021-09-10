@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {usersAPI, userType} from "../dal/api";
+import {usersAPI, UserType} from "../dal/api";
 import {AllActionsType, AppThunk} from "./redux-store";
 
 export enum USERS_ACTIONS_TYPE {
@@ -13,7 +13,7 @@ export enum USERS_ACTIONS_TYPE {
 }
 
 export type serverUsers = {
-    users: userType[]
+    users: UserType[]
     pageSize: number
     totalUsersCount: number
     currentPage: number
@@ -22,7 +22,7 @@ export type serverUsers = {
 type UsersStateType = typeof initialState
 
 let initialState = {
-    users: [] as userType[],
+    users: [] as UserType[],
     pageSize: 20,
     totalUsersCount: 0,
     currentPage: 1,
@@ -41,7 +41,7 @@ export type userActionsType =
 
 export const followSuccess = (userId: number) => ({type: 'FOLLOW', userId}) as const
 export const unFollowSuccess = (userId: number) => ({type: 'UNFOLLOW', userId}) as const
-export const setUsers = (users: userType[]) => ({type: 'SET_USERS', users}) as const
+export const setUsers = (users: UserType[]) => ({type: 'SET_USERS', users}) as const
 export const setCurrentPage = (currentPage: number) => ({type: 'SET_CURRENT_PAGE', currentPage}) as const
 export const setTotalUsersCount = (totalUsersCount: number) => ({
     type: 'SET_TOTAL_USERS_COUNT',

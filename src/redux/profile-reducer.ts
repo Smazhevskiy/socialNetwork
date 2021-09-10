@@ -1,27 +1,30 @@
 import {Dispatch} from "redux";
-import {profileAPI, userProfileType, usersAPI} from "../dal/api";
+import {profileAPI, UserProfileType, usersAPI} from "../dal/api";
 
 
 export enum PROFILE_ACTIONS_TYPE {
     ADD_POST = 'ADD_POST',
     SET_USERS_PROFILE = 'SET_USERS_PROFILE',
-    SET_STATUS = 'SET_STATUS'
+    SET_STATUS = 'SET_STATUS',
 }
-export type postType ={
+
+export type PostType = {
     id: number
     message: string
     likeCount: number
 }
 export type profileActionsType =
     ReturnType<typeof addPostActionCreator>
-    |   ReturnType<typeof setUsersProfileSuccess>
-    |   ReturnType<typeof setUserStatus>
+    | ReturnType<typeof setUsersProfileSuccess>
+    | ReturnType<typeof setUserStatus>
+    | ReturnType<typeof deletePostActionCreator>
 
 
-export const addPostActionCreator = (newPostText:string) => ({type: 'ADD_POST',newPostText} as const)
+export const addPostActionCreator = (newPostText: string) => ({type: 'ADD_POST', newPostText} as const)
 
-export const setUsersProfileSuccess = (profile: userProfileType) => ({type: 'SET_USERS_PROFILE', profile} as const)
+export const setUsersProfileSuccess = (profile: UserProfileType) => ({type: 'SET_USERS_PROFILE', profile} as const)
 export const setUserStatus = (status: string) => ({type: 'SET_STATUS', status} as const)
+export const deletePostActionCreator = (postId: string | number) => ({type: 'profile/DELETE_POST', postId} as  const)
 
 export const setUserProfile = (userId: number) => {
     return (dispatch: Dispatch) => {
@@ -56,14 +59,14 @@ export type ProfileInitialStateType = typeof initialState
 let initialState = {
     posts: [
         {id: 1, message: 'Hello bro', likeCount: 0},
-    ] as Array<postType>,
-    profile: null as null | userProfileType,
+    ] as Array<PostType>,
+    profile: null as null | UserProfileType,
     status: ''
 }
 const profileReducer = (state: ProfileInitialStateType = initialState, action: profileActionsType): ProfileInitialStateType => {
     switch (action.type) {
         case PROFILE_ACTIONS_TYPE.ADD_POST : {
-            let newPost: postType = {
+            let newPost: PostType = {
                 id: 5,
                 message: action.newPostText,
                 likeCount: 0
@@ -87,6 +90,8 @@ const profileReducer = (state: ProfileInitialStateType = initialState, action: p
                 ...state, status: action.status
             }
         }
+        case "profile/DELETE_POST":
+            return {...state, posts: state.posts.filter(p=> p.id !== action.postId)}
         default :
             return state
     }

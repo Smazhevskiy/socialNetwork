@@ -24,9 +24,10 @@ let initialState = {
         },
     ] as dialogType[],
     messages: [
-        {id: 1, message: 'Hi'},
+        {id: 1, message: '1st post'},
         {id: 2, message: 'How is your s ds'},
         {id: 3, message: 'Hi'},
+        {id: 4, message: 'yoo'},
     ] as messageType[],
 }
 

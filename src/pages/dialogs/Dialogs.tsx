@@ -7,9 +7,9 @@ import {reduxForm} from "redux-form";
 import {SendMessage} from './SendMessage';
 
 const Dialogs: React.FC<DialogsPropsType> = React.memo(({dialogsPage, sendMessage}) => {
-    let dialogsElements = dialogsPage.dialogs
+    let dialogsElements = [...dialogsPage.dialogs]
         .map(dialog => <DialogItem key={dialog.id} name={dialog.name} id={dialog.id} img={dialog.img}/>)
-    let messagesElements = dialogsPage.messages
+    let messagesElements = [...dialogsPage.messages]
         .map(message => <Message key={message.id} message={message.message} id={message.id}/>)
 
     const addNewMessage = (values: sendMessageFormDataType) => {

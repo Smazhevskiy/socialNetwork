@@ -4,13 +4,13 @@ import {
     follow,
     requestUsers,
     setCurrentPage,
-    unfollow
+    unfollow,
 } from "../../redux/users-reducer";
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../../components/common/Preloader/Preloader";
 import {compose} from "redux";
-import {userType} from "../../dal/api";
+import {usersAPI, UserType} from "../../dal/api";
 import {
     getCurrentPageSelector,
     getFollowingInProgressSelector,
@@ -21,7 +21,7 @@ import {
 } from "../../redux/users-selectors";
 
 type MapStatePropsType = {
-    users: userType[]
+    users: UserType[]
     pageSize: number
     totalUsersCount: number
     currentPage: number
@@ -70,14 +70,18 @@ const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
         totalUsersCount: getTotalUsersCountSelector(state),
         currentPage: getCurrentPageSelector(state),
         isFetching: getIsFetchingSelector(state),
-        followingInProgress: getFollowingInProgressSelector(state)
+        followingInProgress: getFollowingInProgressSelector(state),
+
     }
 }
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps,
         {
-            setCurrentPage, getUsers: requestUsers, follow, unfollow
+            setCurrentPage,
+            getUsers: requestUsers,
+            follow,
+            unfollow,
         })
 )(UsersContainer)
 

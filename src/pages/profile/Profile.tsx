@@ -3,11 +3,11 @@ import classes from "./Profile.module.css"
 
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
-import {userProfileType} from "../../dal/api";
+import {UserProfileType} from "../../dal/api";
 
 
 export type ProfilePropsType = {
-    profile: null | userProfileType
+    profile: null | UserProfileType
     status: string
     updateStatus: (status: string) => void
 }

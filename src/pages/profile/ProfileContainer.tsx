@@ -5,7 +5,7 @@ import {getUserStatus, setUserProfile, updateUserStatus} from "../../redux/profi
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import {compose} from 'redux';
-import {userProfileType} from "../../dal/api";
+import {UserProfileType} from "../../dal/api";
 
 
 export type ProfileContainerPropsType = MapStatePropsType & MapDispatchToProps
@@ -15,7 +15,7 @@ type MapDispatchToProps = {
     updateUserStatus: (status: string) => void
 }
 type MapStatePropsType = {
-    profile: null | userProfileType
+    profile: null | UserProfileType
     status: string
     authorizedUserId:number | null
     isAuth:boolean
