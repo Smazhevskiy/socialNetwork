@@ -10,7 +10,7 @@ import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../../components/common/Preloader/Preloader";
 import {compose} from "redux";
-import {usersAPI, UserType} from "../../dal/api";
+import {UserType} from "../../dal/api";
 import {
     getCurrentPageSelector,
     getFollowingInProgressSelector,

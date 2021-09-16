@@ -1,11 +1,5 @@
 import React, {FC} from "react";
-import {friendsType} from "../../../redux/store";
-import classes from "./Friends.module.css";
 import {usersAPI} from "../../../dal/api";
-import s from "../../../pages/users/users.module.css";
-import {NavLink} from "react-router-dom";
-import userWithoutPhoto from "../../../assets/imagies/icons8-user-male.svg";
-
 
 const Friends = (props: any) => {
     const users = () => {

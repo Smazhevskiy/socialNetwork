@@ -1,5 +1,5 @@
 export enum DIALOGS_ACTIONS_TYPE{
-    SEND_MESSAGE = 'SEND_MESSAGE',
+    SEND_MESSAGE = 'dialogs/SEND_MESSAGE',
 }
 
 export type dialogType = { id: number, name: string, img: string }
@@ -33,7 +33,7 @@ let initialState = {
 
 export type dialogsActionsType = ReturnType<typeof sendMessageCreator>
 
-export const sendMessageCreator = (messageText:string) => ({type: 'SEND_MESSAGE',messageText}as const )
+export const sendMessageCreator = (messageText:string) => ({type: 'dialogs/SEND_MESSAGE',messageText}as const )
 
 const dialogsReducer = (state: DialogsPageStateType = initialState, action: dialogsActionsType): DialogsPageStateType => {
 

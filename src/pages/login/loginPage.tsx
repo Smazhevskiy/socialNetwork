@@ -8,7 +8,7 @@ import {Input} from '../../components/common/formsControl/FormsControl';
 import {AppRootStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
 
-interface mapDspatchToProps {
+interface mapDispatchToProps {
     login: (email: string, password: string, rememberMe: boolean, captcha: boolean) => void
 }
 
@@ -16,7 +16,7 @@ interface MapStateToPropsType {
     isAuth: boolean
 }
 
-type propsType = mapDspatchToProps & MapStateToPropsType
+type propsType = mapDispatchToProps & MapStateToPropsType
 
 interface formDataType {
     email: string
@@ -24,9 +24,9 @@ interface formDataType {
     rememberMe: boolean
 }
 
-export const LoginForm: FC<InjectedFormProps<formDataType>> = (props) => {
+export const LoginForm: FC<InjectedFormProps<formDataType>> = ({handleSubmit, error}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <Field placeholder={'email'} component={Input} name={'email'} validate={[required]}/>
             <Field type={'password'} placeholder={'password'} component={Input} name={'password'}
                    validate={[required]}/>
@@ -34,7 +34,7 @@ export const LoginForm: FC<InjectedFormProps<formDataType>> = (props) => {
                 <Field type="checkbox" component={'input'} name={'rememberMe'}/>
                 <label htmlFor="{'rememberMe'}">remember me</label>
             </div>
-            {props.error && <div className={style.formSummaryError}>{props.error}</div>}
+            {error && <div className={style.formSummaryError}>{error}</div>}
             <div>
                 <button>Login</button>
             </div>
@@ -61,9 +61,6 @@ const Login: FC<propsType> = (props: any) => {
         </>
     )
 }
-
-
-
 
 
 const LoginReduxForm = reduxForm<formDataType>({

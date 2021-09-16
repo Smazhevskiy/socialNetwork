@@ -33,7 +33,7 @@ test(' post should be deleted', () => {
 })
 
 it('after deleting length shouldnt be decrement if id incorrect ',  ()=> {
-    let action = deletePostActionCreator(100010000000000)
+
     const startState: any = {
         posts: [
             {id: 1, message: 'post1', likesCount: 12},
@@ -42,6 +42,7 @@ it('after deleting length shouldnt be decrement if id incorrect ',  ()=> {
         ]
     };
 
+    let action = deletePostActionCreator(100010000000000)
     let endState = profileReducer(startState, action )
 
     expect(endState.posts.length).toBe(3)

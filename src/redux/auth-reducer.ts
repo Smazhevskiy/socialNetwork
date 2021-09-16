@@ -3,7 +3,7 @@ import {AppThunk} from "./redux-store";
 import {stopSubmit} from "redux-form";
 
 export enum AUTH_ACTIONS_TYPE {
-    SET_USER_DATA = 'SET_USER_DATA',
+    SET_USER_DATA = 'auth/SET_USER_DATA',
 }
 
 
@@ -17,7 +17,7 @@ let initialState = {
 export type authActionTypes =   ReturnType<typeof setUserData>
 
 export const setUserData = (userId:number| null,email:string | null,login:string |null,isAuth:boolean) => ({
-    type:'SET_USER_DATA',payload:{userId,email,login,isAuth}} as const )
+    type:'auth/SET_USER_DATA',payload:{userId,email,login,isAuth}} as const )
 
 export const getAuthUserData = ():AppThunk => async (dispatch) => {
     const res = await authAPI.authMe()
@@ -28,7 +28,6 @@ export const getAuthUserData = ():AppThunk => async (dispatch) => {
     return res
 }
 export const login = (email:string,password:string,rememberMe:boolean,captcha:boolean):AppThunk =>  async (dispatch) => {
-
     let res = await authAPI.login(email, password, rememberMe, captcha)
     if (res.data.resultCode === 0) {
         dispatch(getAuthUserData())

@@ -7,11 +7,11 @@ import News from "./pages/News/News";
 import Music from './pages/Music/Music';
 import Settings from "./pages/Settings/Settings";
 import DialogsContainer from "./pages/dialogs/DialogsContainer";
-import UsersContainer from './pages/users/usersContainer';
+import UsersContainer from './pages/users/UsersContainer';
 import ProfileContainer from './pages/profile/ProfileContainer';
 import HeaderContainer from "./components/header/HeaderContainer";
 import Login from "./pages/login/loginPage";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useTypedSelector} from "./redux/redux-store";
 import {AppStateType, initializeApp} from "./redux/app-reducer";
 import {Preloader} from "./components/common/Preloader/Preloader";
@@ -23,7 +23,7 @@ const App = () => {
     const appState = useTypedSelector<AppStateType>((state) => state.app)
     useEffect(() => {
         dispatch(initializeApp())
-    }, [])
+    }, [dispatch])
     if (!appState.initialized) {
         return <Preloader/>
     }
