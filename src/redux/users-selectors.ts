@@ -6,6 +6,7 @@ const getUsers = (state: AppRootStateType) => {
     return state.usersPage.users
 }
 
+
 export const getUsersSelector = createSelector(getUsers, (users) => {
     return users
 })

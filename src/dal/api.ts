@@ -70,8 +70,8 @@ export const usersAPI = {
         console.log('Please use profileAPI ti get users.')
         return profileAPI.getUserProfile(userId)
     },
-    getFriends(currentPage: number = 1, pageSize: number = 10) {
-        return instance.get<UserResponseType>(`users?page=${currentPage}&count=${pageSize}&friend=${true}`)
+    getFriends() {
+        return instance.get<UserResponseType>(`users?&friend=${true}`)
     }
 
 }

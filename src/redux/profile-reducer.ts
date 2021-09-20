@@ -22,7 +22,10 @@ export type profileActionsType =
 
 export const addPostActionCreator = (newPostText: string) => ({type: 'profile/ADD_POST', newPostText} as const)
 
-export const setUsersProfileSuccess = (profile: UserProfileType) => ({type: 'profile/SET_USERS_PROFILE', profile} as const)
+export const setUsersProfileSuccess = (profile: UserProfileType) => ({
+    type: 'profile/SET_USERS_PROFILE',
+    profile
+} as const)
 export const setUserStatus = (status: string) => ({type: 'profile/SET_STATUS', status} as const)
 export const deletePostActionCreator = (postId: string | number) => ({type: 'profile/DELETE_POST', postId} as const)
 

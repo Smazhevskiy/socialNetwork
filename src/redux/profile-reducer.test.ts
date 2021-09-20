@@ -1,14 +1,16 @@
 import profileReducer, {addPostActionCreator, deletePostActionCreator, PostType} from "./profile-reducer";
 
-test(' post should be added', () => {
-    const startState: any = {
-        posts: [
-            {id: 1, message: 'post1', likesCount: 12},
-            {id: 2, message: 'post2', likesCount: 32},
-            {id: 3, message: 'post3', likesCount: 27},
-        ]
-    };
 
+const startState: any = {
+    posts: [
+        {id: 1, message: 'post1', likesCount: 12},
+        {id: 2, message: 'post2', likesCount: 32},
+        {id: 3, message: 'post3', likesCount: 27},
+    ]
+};
+
+
+test(' post should be added', () => {
     const action = addPostActionCreator('newPostMessage');
     const endState = profileReducer(startState, action)
 
@@ -17,14 +19,6 @@ test(' post should be added', () => {
 })
 
 test(' post should be deleted', () => {
-    const startState: any = {
-        posts: [
-            {id: 1, message: 'post1', likesCount: 12},
-            {id: 2, message: 'post2', likesCount: 32},
-            {id: 3, message: 'post3', likesCount: 27},
-        ]
-    };
-
     const action = deletePostActionCreator(2);
     const endState = profileReducer(startState, action)
 
@@ -34,13 +28,6 @@ test(' post should be deleted', () => {
 
 it('after deleting length shouldnt be decrement if id incorrect ',  ()=> {
 
-    const startState: any = {
-        posts: [
-            {id: 1, message: 'post1', likesCount: 12},
-            {id: 2, message: 'post2', likesCount: 32},
-            {id: 3, message: 'post3', likesCount: 27},
-        ]
-    };
 
     let action = deletePostActionCreator(100010000000000)
     let endState = profileReducer(startState, action )

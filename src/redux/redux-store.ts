@@ -38,3 +38,6 @@ let store = createStore(
 export const useTypedSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 // (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
 export default store
+
+// @ts-ignore
+window.__store__ = store

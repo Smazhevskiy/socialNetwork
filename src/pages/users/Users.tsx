@@ -43,9 +43,11 @@ export const Users: FC<usersPropsType> = React.memo((props) => {
         <div>
             <Pagination defaultPage={1} page={currentPage} onChange={handleChangePage} count={pagesCount}
                         color={'secondary'}
-                        shape="rounded"/>
-            <Paginator totalUsersCount={totalUsersCount} pageSize={pageSize} currentPage={currentPage}
-                       onPageChanged={onPageChanged}/>
+                        shape="rounded"
+            />
+            {/*<Paginator totalUsersCount={totalUsersCount} pageSize={pageSize} currentPage={currentPage}*/}
+            {/*           onPageChanged={onPageChanged}*/}
+            {/*/>*/}
             <div>
                 {
                     users.map(u => <User

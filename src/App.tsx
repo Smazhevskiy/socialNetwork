@@ -6,17 +6,19 @@ import {Route} from 'react-router-dom';
 import News from "./pages/News/News";
 import Music from './pages/Music/Music';
 import Settings from "./pages/Settings/Settings";
-import DialogsContainer from "./pages/dialogs/DialogsContainer";
-import UsersContainer from './pages/users/UsersContainer';
-import ProfileContainer from './pages/profile/ProfileContainer';
 import HeaderContainer from "./components/header/HeaderContainer";
-import Login from "./pages/login/loginPage";
 import {useDispatch} from "react-redux";
 import {useTypedSelector} from "./redux/redux-store";
 import {AppStateType, initializeApp} from "./redux/app-reducer";
 import {Preloader} from "./components/common/Preloader/Preloader";
-import Friends from "./components/navbar/friends/Friends";
+import {Friends} from "./components/navbar/friends/Friends";
+import {WithSuspense} from "./Hoc/WithSuspense";
 
+
+const Login = React.lazy(() => import('./pages/login/loginPage'))
+const ProfileContainer = React.lazy(() => import('./pages/profile/ProfileContainer'))
+const DialogsContainer = React.lazy(() => import('./pages/dialogs/DialogsContainer'))
+const UsersContainer = React.lazy(() => import('./pages/login/loginPage'))
 
 const App = () => {
     const dispatch = useDispatch()
@@ -32,14 +34,10 @@ const App = () => {
             <HeaderContainer/>
             <Navbar/>
             <div className="App-wrapper-content">
-                <Route path='/profile/:userId?'
-                       render={() => <ProfileContainer/>}/>
-                <Route path='/dialogs'
-                       render={() => <DialogsContainer/>}/>
-                <Route path='/users'
-                       render={() => <UsersContainer/>}/>
-                <Route path='/login'
-                       render={() => <Login/>}/>
+                <Route path="/profile/:userid?" render={WithSuspense(ProfileContainer)}/>
+                <Route path="/dialogs" render={WithSuspense(DialogsContainer)}/>
+                <Route path="/users" render={WithSuspense(UsersContainer)}/>
+                <Route path="/login" render={WithSuspense(Login)}/>
                 <Route path='/news' component={News}/>
                 <Route path='/music' component={Music}/>
                 <Route path='/settings' component={Settings}/>

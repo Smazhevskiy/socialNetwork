@@ -10,7 +10,8 @@ export enum USERS_ACTIONS_TYPE {
     SET_CURRENT_PAGE = 'users/SET_CURRENT_PAGE',
     SET_TOTAL_USERS_COUNT = 'users/SET_TOTAL_USERS_COUNT',
     TOGGLE_IS_FETCHING = 'users/TOGGLE_IS_FETCHING',
-    TOGGLE_IS_FETCHING_PROGRESS = 'users/TOGGLE_IS_FETCHING_PROGRESS'
+    TOGGLE_IS_FETCHING_PROGRESS = 'users/TOGGLE_IS_FETCHING_PROGRESS',
+    SET_FRIENDS = 'users/SET_FRIENDS'
 }
 
 export type serverUsers = {
@@ -20,7 +21,7 @@ export type serverUsers = {
     currentPage: number
 }
 
-type UsersStateType = typeof initialState
+export type UsersStateType = typeof initialState
 
 let initialState = {
     users: [] as UserType[],
@@ -28,7 +29,8 @@ let initialState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
-    followingInProgress: [] as number[]
+    followingInProgress: [] as number[],
+    friends: [] as UserType []
 }
 
 export type userActionsType =
@@ -39,29 +41,42 @@ export type userActionsType =
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof toggleFollowingProgress>
+    | ReturnType<typeof setFriends>
+
 
 export const followSuccess = (userId: number) => ({type: 'users/FOLLOW', userId}) as const
 export const unFollowSuccess = (userId: number) => ({type: 'users/UNFOLLOW', userId}) as const
 export const setUsers = (users: UserType[]) => ({type: 'users/SET_USERS', users}) as const
+export const setFriends = (friends: UserType[]) => ({type: 'users/SET_FRIENDS', friends}) as const
 export const setCurrentPage = (currentPage: number) => ({type: 'users/SET_CURRENT_PAGE', currentPage}) as const
 export const setTotalUsersCount = (totalUsersCount: number) => ({
     type: 'users/SET_TOTAL_USERS_COUNT',
     count: totalUsersCount
 }) as const
-export const toggleIsFetching = (isFetching: boolean) => ({type: 'users/TOGGLE_IS_FETCHING', isFetching: isFetching}) as const
+export const toggleIsFetching = (isFetching: boolean) => ({
+    type: 'users/TOGGLE_IS_FETCHING',
+    isFetching: isFetching
+}) as const
 export const toggleFollowingProgress = (isFetching: boolean, userId: number) => ({
     type: 'users/TOGGLE_IS_FETCHING_PROGRESS',
     isFetching,
     userId
 }) as const
 
-export const requestUsers = (page: number, pageSize: number): AppThunk => async (dispatch) => {
+export const requestUsers = (page: number, pageSize: number): AppThunk => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
     dispatch(setCurrentPage(page))
     let res = await usersAPI.getUsers(page, pageSize)
     dispatch(toggleIsFetching(false))
     dispatch(setUsers(res.data.items))
     dispatch(setTotalUsersCount(res.data.totalCount))
+}
+
+export const requestFriends = (): AppThunk => async (dispatch: Dispatch) => {
+    dispatch(toggleIsFetching(true))
+    let res = await usersAPI.getFriends()
+    dispatch(toggleIsFetching(false))
+    dispatch(setFriends(res.data.items))
 }
 
 
@@ -73,6 +88,7 @@ const followUnfollowFlow = async (dispatch: Dispatch, userId: number, apiMethod:
     }
     dispatch(toggleFollowingProgress(false, userId))
 }
+
 
 export const follow = (userId: number): AppThunk => async (dispatch: Dispatch) => {
     await followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), followSuccess)
@@ -86,7 +102,7 @@ export const usersReducer = (state: UsersStateType = initialState, action: userA
         case USERS_ACTIONS_TYPE.FOLLOW :
             return {
                 ...state,
-                users: updateObjectInArray(state.users,action.userId,'id',{followed:true})
+                users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})
                 // users: state.users.map(user => {
                 //     if (user.id === action.userId) {
                 //         return {...user, followed: true}
@@ -97,7 +113,7 @@ export const usersReducer = (state: UsersStateType = initialState, action: userA
         case USERS_ACTIONS_TYPE.UNFOLLOW:
             return {
                 ...state,
-                users: updateObjectInArray(state.users,action.userId,'id',{followed:false})
+                users: updateObjectInArray(state.users, action.userId, 'id', {followed: false})
                 // users: state.users.map(user => {
                 //     if (user.id === action.userId) {
                 //         return {...user, followed: false}
@@ -125,6 +141,10 @@ export const usersReducer = (state: UsersStateType = initialState, action: userA
                     : state.followingInProgress.filter(id => id !== action.userId)
             }
         }
+        case  USERS_ACTIONS_TYPE.SET_FRIENDS: {
+            return {...state, friends: action.friends}
+        }
+
         default :
             return state
     }
