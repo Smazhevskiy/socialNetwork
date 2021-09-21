@@ -12,7 +12,7 @@ let initialState = {
     userId: null as null | number,
     email: null as null | string,
     login: null as null | string,
-    isAuth: false
+    isAuth: true
 }
 export type authActionTypes =   ReturnType<typeof setUserData>
 

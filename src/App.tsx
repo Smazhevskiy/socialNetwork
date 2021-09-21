@@ -26,9 +26,9 @@ const App = () => {
     useEffect(() => {
         dispatch(initializeApp())
     }, [dispatch])
-    if (!appState.initialized) {
-        return <Preloader/>
-    }
+    // if (!appState.initialized) {
+    //     return <Preloader/>
+    // }
 
     return (
         <div className="App">
