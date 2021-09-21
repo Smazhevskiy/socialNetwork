@@ -10,7 +10,7 @@ export enum AUTH_ACTIONS_TYPE {
 export type AppStateType = typeof initialState
 
 let initialState = {
-    initialized:false
+    initialized:true
 }
 export type appActionTypes =   ReturnType<typeof initializedSuccess>
 

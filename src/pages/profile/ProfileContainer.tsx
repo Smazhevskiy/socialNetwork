@@ -30,7 +30,7 @@ class ProfileContainer extends React.Component<propsType> {
     componentDidMount() {
         let userId:number|null = Number(this.props.match.params.userId)
         if (!userId) {
-            userId = this.props.userId
+            userId = 17798 //this.props.userId
             if(!userId) {
                 this.props.history.push('/login')
             }
