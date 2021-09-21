@@ -18,7 +18,7 @@ import {WithSuspense} from "./Hoc/WithSuspense";
 const Login = React.lazy(() => import('./pages/login/loginPage'))
 const ProfileContainer = React.lazy(() => import('./pages/profile/ProfileContainer'))
 const DialogsContainer = React.lazy(() => import('./pages/dialogs/DialogsContainer'))
-const UsersContainer = React.lazy(() => import('./pages/login/loginPage'))
+const UsersContainer = React.lazy(() => import('./pages/users/UsersContainer'))
 
 const App = () => {
     const dispatch = useDispatch()
@@ -29,6 +29,7 @@ const App = () => {
     if (!appState.initialized) {
         return <Preloader/>
     }
+
     return (
         <div className="App">
             <HeaderContainer/>
