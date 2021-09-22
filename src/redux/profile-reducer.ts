@@ -1,11 +1,18 @@
 import {Dispatch} from "redux";
 import {profileAPI, UserProfileType, usersAPI} from "../dal/api";
+import {ThunkDispatch} from "redux-thunk";
+import {AppStateType} from "./app-reducer";
 
 
 export enum PROFILE_ACTIONS_TYPE {
     ADD_POST = 'profile/ADD_POST',
     SET_USERS_PROFILE = 'profile/SET_USERS_PROFILE',
     SET_STATUS = 'profile/SET_STATUS',
+}
+
+export type PhotosType = {
+    small: string | null
+    large: string | null
 }
 
 export type PostType = {
@@ -28,6 +35,8 @@ export const setUsersProfileSuccess = (profile: UserProfileType) => ({
 } as const)
 export const setUserStatus = (status: string) => ({type: 'profile/SET_STATUS', status} as const)
 export const deletePostActionCreator = (postId: string | number) => ({type: 'profile/DELETE_POST', postId} as const)
+export const savePhotoSuccess = (photos: PhotosType) => ({type: 'profile/SAVE-PHOTO-SUCCESS', photos} as const)
+
 
 export const setUserProfile = (userId: number) => async (dispatch: Dispatch) => {
     const res = await usersAPI.getProfileUser(userId);
@@ -46,6 +55,13 @@ export const updateUserStatus = (status: string) => async (dispatch: Dispatch) =
         dispatch(setUserStatus(status));
     }
 }
+
+export const savePhoto = (file: File) => async (dispatch: Dispatch) => {
+        const data = await profileAPI.savePhoto(file)
+        if (data.resultCode === 0) {
+            dispatch(savePhotoSuccess(data.data.photos))
+        }
+    }
 
 export type ProfileInitialStateType = typeof initialState
 let initialState = {

@@ -12,34 +12,35 @@ let initialState = {
     userId: null as null | number,
     email: null as null | string,
     login: null as null | string,
-    isAuth: true //need false
+    isAuth: false //need false
 }
-export type authActionTypes =   ReturnType<typeof setUserData>
+export type authActionTypes = ReturnType<typeof setUserData>
 
-export const setUserData = (userId:number| null,email:string | null,login:string |null,isAuth:boolean) => ({
-    type:'auth/SET_USER_DATA',payload:{userId,email,login,isAuth}} as const )
+export const setUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
+    type: 'auth/SET_USER_DATA', payload: {userId, email, login, isAuth}
+} as const)
 
-export const getAuthUserData = ():AppThunk => async (dispatch) => {
+export const getAuthUserData = (): AppThunk => async (dispatch) => {
     const res = await authAPI.authMe()
     if (res.data.resultCode === 0) {
         let {id, email, login} = res.data.data
-        dispatch(setUserData(id, email, login,true))
+        dispatch(setUserData(id, email, login, true))
     }
     return res
 }
-export const login = (email:string,password:string,rememberMe:boolean,captcha:boolean):AppThunk =>  async (dispatch) => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: boolean): AppThunk => async (dispatch) => {
     let res = await authAPI.login(email, password, rememberMe, captcha)
     if (res.data.resultCode === 0) {
         dispatch(getAuthUserData())
-    } else  {
+    } else {
         let message = res.data.messages.length > 0 ? res.data.messages[0] : 'some error'
         dispatch(stopSubmit('login', {_error: message}))
     }
 }
-export const logout = ():AppThunk =>  async (dispatch) => {
+export const logout = (): AppThunk => async (dispatch) => {
     let res = await authAPI.logout()
     if (res.data.resultCode === 0) {
-        dispatch(setUserData(null, null, null,false))
+        dispatch(setUserData(null, null, null, false))
     }
 }
 

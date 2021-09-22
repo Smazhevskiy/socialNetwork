@@ -10,12 +10,20 @@ export type ProfilePropsType = {
     profile: null | UserProfileType
     status: string
     updateStatus: (status: string) => void
+    isOwner:boolean
+    savePhoto: (photo:  File) => void
 }
 
-const Profile: React.FC<ProfilePropsType> = React.memo(({profile, status, updateStatus}) => {
+const Profile: React.FC<ProfilePropsType> = React.memo(({isOwner,savePhoto,profile, status, updateStatus}) => {
     return (
         <div className={classes.profile}>
-            <ProfileInfo profile={profile} status={status} updateStatus={updateStatus}/>
+            <ProfileInfo
+                savePhoto={savePhoto}
+                isOwner={isOwner}
+                profile={profile}
+                status={status} updateStatus={updateStatus}
+
+            />
             <MyPostsContainer/>
         </div>
     )
