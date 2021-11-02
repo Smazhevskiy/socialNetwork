@@ -1,11 +1,10 @@
-import React, {ChangeEvent, FC} from "react";
-import {UserType} from "../../dal/api";
-import Pagination from '@material-ui/lab/Pagination';
-import {Paginator} from "./Paginator";
-import {User} from "./User";
+import React, {ChangeEvent, FC} from 'react'
+import {UserType} from '../../dal/api'
+import Pagination from '@material-ui/lab/Pagination'
+import {User} from './User'
 
 
-type usersPropsType = {
+export type usersPropsType = {
     totalUsersCount: number
     currentPage: number
     onPageChanged: (pageNumber: number) => void
@@ -14,6 +13,7 @@ type usersPropsType = {
     followingInProgress: number[]
     follow: (userId: number) => void
     unfollow: (userId: number) => void
+
 }
 
 
@@ -45,9 +45,6 @@ export const Users: FC<usersPropsType> = React.memo((props) => {
                         color={'secondary'}
                         shape="rounded"
             />
-            {/*<Paginator totalUsersCount={totalUsersCount} pageSize={pageSize} currentPage={currentPage}*/}
-            {/*           onPageChanged={onPageChanged}*/}
-            {/*/>*/}
             <div>
                 {
                     users.map(u => <User
@@ -65,4 +62,4 @@ export const Users: FC<usersPropsType> = React.memo((props) => {
     )
 
 
-});
+})

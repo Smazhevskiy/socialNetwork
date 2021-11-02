@@ -30,7 +30,7 @@ export const User: FC<userProps> = ({user, follow, unfollow, followingInProgress
                                   unfollow(user.id)
                               }}>
                         Unfollow</button>
-                    : <button disabled={followingInProgress.some(id => id === user.id)}
+                     : <button disabled={false}      //followingInProgress.some(id => id === user.id)
                               onClick={() => {
                                   follow(user.id)
                               }}>

@@ -54,27 +54,25 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     headers: {
         'API-KEY': '65933dcc-6afe-43bc-af50-63aed10a4c85',
-        'Content-Type': 'multipart/form-data'
+        // 'Content-Type': 'multipart/form-data'
     }
 })
 export const usersAPI = {
-    getUsers(currentPage: number = 1, pageSize: number = 10) {
+    getUsers(currentPage: number = 1, pageSize: number = 10, friend?:boolean) {
         return instance.get<UserResponseType>(`users?page=${currentPage}&count=${pageSize}`)
     },
     follow(userId: number) {
         return instance.post<ResponseType<UserType>>(`follow/${userId}`)
     },
-    // maybe refactor
     unfollow(userId: number) {
         return instance.delete<ResponseType>(`follow/${userId}`)
     },
 
     getProfileUser(userId: number) {
-        console.log('Please use profileAPI ti get users.')
         return profileAPI.getUserProfile(userId)
     },
     getFriends() {
-        return instance.get<UserResponseType>(`users?&friend=${true}`)
+        return instance.get<UserResponseType>(`users?users?page=${1}&count=${10}friend=${true}`)
     }
 
 }

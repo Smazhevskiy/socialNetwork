@@ -1,7 +1,7 @@
-import {Dispatch} from "redux";
-import {usersAPI, UserType} from "../dal/api";
-import {AppThunk} from "./redux-store";
-import {updateObjectInArray} from "../utils/Object-helpers";
+import {Dispatch} from 'redux'
+import {usersAPI, UserType} from '../dal/api'
+import {AppThunk} from './redux-store'
+import {updateObjectInArray} from '../utils/Object-helpers'
 
 export enum USERS_ACTIONS_TYPE {
     FOLLOW = 'users/FOLLOW',
@@ -11,7 +11,6 @@ export enum USERS_ACTIONS_TYPE {
     SET_TOTAL_USERS_COUNT = 'users/SET_TOTAL_USERS_COUNT',
     TOGGLE_IS_FETCHING = 'users/TOGGLE_IS_FETCHING',
     TOGGLE_IS_FETCHING_PROGRESS = 'users/TOGGLE_IS_FETCHING_PROGRESS',
-    SET_FRIENDS = 'users/SET_FRIENDS'
 }
 
 export type serverUsers = {
@@ -30,7 +29,6 @@ let initialState = {
     currentPage: 1,
     isFetching: true,
     followingInProgress: [] as number[],
-    friends: [] as UserType []
 }
 
 export type userActionsType =
@@ -41,13 +39,11 @@ export type userActionsType =
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof toggleFollowingProgress>
-    | ReturnType<typeof setFriends>
 
 
 export const followSuccess = (userId: number) => ({type: 'users/FOLLOW', userId}) as const
 export const unFollowSuccess = (userId: number) => ({type: 'users/UNFOLLOW', userId}) as const
 export const setUsers = (users: UserType[]) => ({type: 'users/SET_USERS', users}) as const
-export const setFriends = (friends: UserType[]) => ({type: 'users/SET_FRIENDS', friends}) as const
 export const setCurrentPage = (currentPage: number) => ({type: 'users/SET_CURRENT_PAGE', currentPage}) as const
 export const setTotalUsersCount = (totalUsersCount: number) => ({
     type: 'users/SET_TOTAL_USERS_COUNT',
@@ -63,20 +59,13 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number) => 
     userId
 }) as const
 
-export const requestUsers = (page: number, pageSize: number): AppThunk => async (dispatch: Dispatch) => {
+export const requestUsers = (page: number, pageSize: number, friend?: boolean): AppThunk => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
     dispatch(setCurrentPage(page))
     let res = await usersAPI.getUsers(page, pageSize)
     dispatch(toggleIsFetching(false))
     dispatch(setUsers(res.data.items))
     dispatch(setTotalUsersCount(res.data.totalCount))
-}
-
-export const requestFriends = (): AppThunk => async (dispatch: Dispatch) => {
-    dispatch(toggleIsFetching(true))
-    let res = await usersAPI.getFriends()
-    dispatch(toggleIsFetching(false))
-    dispatch(setFriends(res.data.items))
 }
 
 
@@ -103,23 +92,11 @@ export const usersReducer = (state: UsersStateType = initialState, action: userA
             return {
                 ...state,
                 users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})
-                // users: state.users.map(user => {
-                //     if (user.id === action.userId) {
-                //         return {...user, followed: true}
-                //     }
-                //     return user
-                // })
             }
         case USERS_ACTIONS_TYPE.UNFOLLOW:
             return {
                 ...state,
                 users: updateObjectInArray(state.users, action.userId, 'id', {followed: false})
-                // users: state.users.map(user => {
-                //     if (user.id === action.userId) {
-                //         return {...user, followed: false}
-                //     }
-                //     return user
-                // })
             }
         case USERS_ACTIONS_TYPE.SET_USERS : {
             return {...state, users: action.users}
@@ -141,9 +118,7 @@ export const usersReducer = (state: UsersStateType = initialState, action: userA
                     : state.followingInProgress.filter(id => id !== action.userId)
             }
         }
-        case  USERS_ACTIONS_TYPE.SET_FRIENDS: {
-            return {...state, friends: action.friends}
-        }
+
 
         default :
             return state
