@@ -16,8 +16,3 @@ export type navbarPage = {
     friends: friendsType[]
 }
 
-
-
- let store
-
-export default store

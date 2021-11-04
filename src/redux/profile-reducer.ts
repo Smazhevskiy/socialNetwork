@@ -1,7 +1,5 @@
-import {Dispatch} from "redux";
-import {profileAPI, UserProfileType, usersAPI} from "../dal/api";
-import {ThunkDispatch} from "redux-thunk";
-import {AppStateType} from "./app-reducer";
+import {Dispatch} from 'redux'
+import {profileAPI, UserProfileType, usersAPI} from '../dal/api'
 
 
 export enum PROFILE_ACTIONS_TYPE {

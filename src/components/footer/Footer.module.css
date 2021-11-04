@@ -1,6 +1,11 @@
 
 .footer{
-    background-color: green;
+    background: none;
     grid-area:footer;
     box-shadow: 1001px -63px 386px 274px #b9b1b1;
+    width: 20px;
+    margin-top: 30px;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
 }

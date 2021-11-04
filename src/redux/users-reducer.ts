@@ -24,7 +24,7 @@ export type UsersStateType = typeof initialState
 
 let initialState = {
     users: [] as UserType[],
-    pageSize: 20,
+    pageSize: 10,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
@@ -118,8 +118,6 @@ export const usersReducer = (state: UsersStateType = initialState, action: userA
                     : state.followingInProgress.filter(id => id !== action.userId)
             }
         }
-
-
         default :
             return state
     }
